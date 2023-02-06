@@ -1,5 +1,7 @@
 mod s1;
+mod s2;
 use std::path::Path;
+use hex;
 
 fn main() {
     // every preceding challenge has been commented out lol
@@ -31,7 +33,18 @@ fn main() {
     // let path = Path::new("./src/s1/7.txt");
     // println!("plaintext: \n{}", String::from_utf8(s1::s1ch7::decrypt_aes_in_ecb(path)).unwrap());
     //
-    let path = Path::new("./src/s1/8.txt");
-    let (ecb, count) = s1::s1ch8::detects_aes_in_acb(path);
-    println!("ecb line {} with count {}", ecb, count);
+    // let path = Path::new("./src/s1/8.txt");
+    // let (ecb, count) = s1::s1ch8::detects_aes_in_acb(path);
+    // println!("ecb line {} with count {}", ecb, count);
+    // s2::s2ch9::pkcs_7_padding("YELLOW SUBMARINE", 20);
+    let plaintext = "asfdasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfas";
+    let key = r#"YELLOW SUBMARINE"#;
+    let iv = r#"asdfasdfasdfasdf"#;
+    // let ciphertext = "f612270f052b7c86151ee99d3674cbeab6d27ffa97bd1db9218c480b987d0fdaee2a5a49b3727e655bae78362e5c93244757ab41b0953b65146b416cbd32f1f0";
+    // let ciphertext = hex::decode(ciphertext).unwrap();
+    let ciphertext = s2::s2ch10::aes_cbc_encrypt(plaintext, key, iv);
+    let plaintext = s2::s2ch10::aes_cbc_decrypt(ciphertext, key.as_bytes().to_vec(), iv.as_bytes().to_vec());
+    // println!("encoded ciphertext = {}", hex::encode(ciphertext));
+    // println!("{:?}", ciphertext);
+    println!("plaintext {}", String::from_utf8_lossy(&plaintext));
 }

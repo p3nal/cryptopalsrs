@@ -4,8 +4,12 @@ use std::path::Path;
 
 // set 1 challenge 6
 //
-pub fn read_file_contents(path: &Path) -> Vec<u8> {
+pub fn read_b64_file_contents(path: &Path) -> Vec<u8> {
     base64::decode(read_to_string(path).unwrap().replace("\n", "")).unwrap()
+}
+
+pub fn read_hex_file_contents(path: &Path) -> Vec<u8> {
+    hex::decode(read_to_string(path).unwrap().replace("\n", "")).unwrap()
 }
 
 fn hamming_distance(bytes1: &[u8], bytes2: &[u8]) -> usize {
@@ -55,7 +59,7 @@ fn find_keysize(contents: &Vec<u8>) -> usize {
 }
 
 pub fn break_repeating_key_xor(path: &Path) -> (String, String) {
-    let contents: Vec<u8> = read_file_contents(path);
+    let contents: Vec<u8> = read_b64_file_contents(path);
 
     // ok sure thing now i probably know the keysize... lets see
     let keysize: usize = find_keysize(&contents);
