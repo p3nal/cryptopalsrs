@@ -1,11 +1,20 @@
-use openssl::symm::{Cipher, decrypt};
+use openssl::symm::{Cipher, decrypt, encrypt};
 use std::path::Path;
 
-pub fn decrypt_aes_in_ecb(path: &Path) -> Vec<u8> {
-    let ciphertext: Vec<u8> = crate::s1::s1ch6::read_b64_file_contents(path);
+pub fn decrypt_aes_in_ecb<T: AsRef<[u8]>>(ciphertext: T, key: T) -> Vec<u8> {
+    // let ciphertext: Vec<u8> = crate::s1::s1ch6::read_b64_file_contents(path);
+    let ciphertext = ciphertext.as_ref().to_vec();
     let key = "YELLOW SUBMARINE";
 
     let cipher = Cipher::aes_128_ecb();
-    let plaintext = decrypt(cipher, key.as_bytes(), None, &ciphertext).unwrap();
+    let plaintext = decrypt(cipher, key.as_ref(), None, &ciphertext).unwrap();
     plaintext
+}
+
+pub fn encrypt_aes_in_ecb<T: AsRef<[u8]>>(plaintext: T, key: T) -> Vec<u8> {
+    // let ciphertext: Vec<u8> = crate::s1::s1ch6::read_b64_file_contents(path);
+    let plaintext = plaintext.as_ref().to_vec();
+
+    let cipher = Cipher::aes_128_ecb();
+    encrypt(cipher, key.as_ref(), None, &plaintext).unwrap()
 }
