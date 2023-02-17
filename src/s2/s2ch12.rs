@@ -58,11 +58,17 @@ pub fn crack_a_block(oracle: &Oracle, block_size: usize) -> Vec<u8> {
         let block: Vec<u8> = (0..(chunk_index + 1) * block_size - 1 - cracked_bytes.len())
             .map(|_| 65_u8)
             .collect::<Vec<u8>>();
-        let cipherblocks_to_compare_with = oracle.encryption_oracle(&block)[chunk_index*block_size..(chunk_index+1)*block_size].to_vec();
+        let cipherblocks_to_compare_with = oracle.encryption_oracle(&block)
+            [chunk_index * block_size..(chunk_index + 1) * block_size]
+            .to_vec();
         for i in 0..=255_u8 {
             if cipherblocks_to_compare_with
-                == oracle
-                    .encryption_oracle(vec![block.clone(), cracked_bytes.clone(), vec![i]].into_iter().flatten().collect::<Vec<u8>>())[chunk_index*block_size..(chunk_index+1)*block_size]
+                == oracle.encryption_oracle(
+                    vec![block.clone(), cracked_bytes.clone(), vec![i]]
+                        .into_iter()
+                        .flatten()
+                        .collect::<Vec<u8>>(),
+                )[chunk_index * block_size..(chunk_index + 1) * block_size]
                     .to_vec()
             {
                 cracked_bytes.push(i);
@@ -73,4 +79,11 @@ pub fn crack_a_block(oracle: &Oracle, block_size: usize) -> Vec<u8> {
     cracked_bytes
 }
 
-
+pub fn demo() {
+    let random_string = "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK";
+    let oracle = Oracle::new(16, random_string);
+    let block_size = discover_block_size(&oracle);
+    println!("block size discovered = {block_size}");
+    println!("mode = {}", detect_mode_operation(&oracle, block_size));
+    println!("{}", String::from_utf8(crack_a_block(&oracle, block_size)).unwrap());
+}
