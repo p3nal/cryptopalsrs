@@ -58,4 +58,13 @@ fn main() {
     // s2::s2ch13_break::break_s2ch13();
     //
     // s2::s2ch14::demo();
+    //
+    // PKCS#7 padding validation:
+    // let string1 = String::from("ICE ICE BABY\x04\x04\x04\x04");
+    // let string2 = String::from("ICE ICE BABY\x05\x05\x05\x05");
+    // let string3 = String::from("ICE ICE BABY\x01\x02\x03\x04");
+    // println!("unpadded string:  {}", s2::s2ch15::validate_padding(string3));
+    //
+    // CBC bitflipping attacks
+    s2::s2ch16_break::break_s2ch16();
 }
