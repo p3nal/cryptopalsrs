@@ -21,7 +21,7 @@ pub fn break_s3ch17() {
                 // iv
                 iv[byte_index]
             } else {
-                // minus 16 to fall back on cyphertext..
+                // minus 16 to fall back on ciphertext..
                 ciphertext[block_index + byte_index - 16]
             };
             for byte_guess in 0..=255_u8 {
@@ -29,9 +29,13 @@ pub fn break_s3ch17() {
                 payload[byte_index] = byte_guess;
                 // if padding is valid
                 if crate::s3::s3ch17::second_function(&cipher, &payload) {
+                    // this next block here is to check for valid padding coincidences...
                     if byte_index > 0 {
-                        payload[byte_index - 1] = 0x0f_u8;
+                        payload[byte_index - 1] = 0xff_u8;
                         if !crate::s3::s3ch17::second_function(&cipher, &payload) {
+                            // in this case weve fallen on an undexpected valid padding
+                            // see https://crypto.stackexchange.com/questions/40800/is-the-padding-oracle-attack-deterministic
+                            // for more info
                             continue;
                         }
                     }
@@ -48,6 +52,7 @@ pub fn break_s3ch17() {
                 }
             }
             for byte in byte_index..16 {
+                // padding byte for next time
                 let padding_byte = (16 - byte_index + 1) as u8;
                 payload[byte] = padding_byte ^ intermediate_block[byte] as u8;
             }
@@ -55,5 +60,4 @@ pub fn break_s3ch17() {
         plain_block.iter().for_each(|&x| plaintext.push(x));
     }
     println!("{:?}", plaintext.iter().collect::<String>());
-    // code
 }
