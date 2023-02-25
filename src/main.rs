@@ -1,5 +1,6 @@
 mod s1;
 mod s2;
+mod s3;
 use hex;
 use std::path::Path;
 
@@ -66,5 +67,8 @@ fn main() {
     // println!("unpadded string:  {}", s2::s2ch15::validate_padding(string3));
     //
     // CBC bitflipping attacks
-    s2::s2ch16_break::break_s2ch16();
+    // s2::s2ch16_break::break_s2ch16();
+    //
+    // set 3 strting...
+    s3::s3ch17_break::break_s3ch17();
 }

@@ -42,12 +42,14 @@ pub fn aes_cbc_decrypt<T: AsRef<[u8]>>(ciphertext: T, key: T, iv: T) -> Vec<u8> 
         } else {
             &ciphertext[i-16..i]
         };
-        let mut block = GenericArray::clone_from_slice(&ciphertext.get(i..i+16).unwrap());
+        let mut block = GenericArray::clone_from_slice(&ciphertext[i..i+16]);
         cipher.decrypt_block(&mut block);
         let block_to_xor = block.to_vec();
         let xored_block = xor(block_to_xor, prev_cipherblock.to_vec());
         plaintext.push(xored_block);
     }
     let plaintext: Vec<u8> = plaintext.into_iter().flatten().collect();
-    plaintext.get(..plaintext.len() - *plaintext.last().unwrap_or(&0) as usize).unwrap().to_vec()
+    // plaintext.get(..plaintext.len() - *plaintext.last().unwrap_or(&0) as usize).unwrap().to_vec()
+    // padding not removed
+    plaintext
 }
