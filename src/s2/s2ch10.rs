@@ -4,7 +4,7 @@ use aes::cipher::{
     generic_array::GenericArray,
 };
 
-fn xor<T: AsRef<[u8]>>(b1: T, b2: T) -> Vec<u8> {
+pub fn xor<T: AsRef<[u8]>>(b1: T, b2: T) -> Vec<u8> {
     let xor_bytes: Vec<u8> = b1
         .as_ref()
         .iter()

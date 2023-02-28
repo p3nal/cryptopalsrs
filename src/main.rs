@@ -70,5 +70,22 @@ fn main() {
     // s2::s2ch16_break::break_s2ch16();
     //
     // set 3 strting...
-    s3::s3ch17_break::break_s3ch17();
+    // s3::s3ch17_break::break_s3ch17();
+    //
+    // ch18 CTR here we go
+    let key = "YELLOW SUBMARINE";
+    // let plaintext = "asdfasdfasdfasdfasdfasdfasdfasdfasdf";
+    // let nonce = s2::s2ch11::generate_random_bytes(8);
+    let nonce = vec![0_u8; 8];
+    let ciphertext =
+        base64::decode("L77na/nrFsKvynd6HzOoG7GHTLXsTVu9qvY/2syLXzhPweyyMTJULu/6/kXX0KSvoOLSFQ==")
+            .unwrap();
+    println!(
+        "plaintext: {}",
+        String::from_utf8(s3::s3ch18::aes_ctr_encrypt(
+            ciphertext,
+            key.as_bytes().to_vec(),
+            nonce
+        )).unwrap()
+    );
 }
