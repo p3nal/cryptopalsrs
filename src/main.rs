@@ -90,10 +90,15 @@ fn main() {
     // s3::s3ch19::crack_me();
     //
     // ch21
-    let mut mt = s3::s3ch21::MT19937::new();
-    s3::s3ch21::MT19937::seed_mt(&mut mt, 1131464071);
-    for _ in 0..10 {
-        let random = s3::s3ch21::MT19937::extract_number(&mut mt);
-        println!("random number = {random}");
-    }
+    // let mut mt = s3::s3ch21::MT19937::new();
+    // s3::s3ch21::MT19937::seed_mt(&mut mt, 1131464071);
+    // for _ in 0..10 {
+    //     let random = s3::s3ch21::MT19937::extract_number(&mut mt);
+    //     println!("random number = {random}");
+    // }
+    //
+    // ch22
+    let rng = s3::s3ch22::go_get_coffee_while_this_runs();
+    let cracked_seed = s3::s3ch22::crack_mt19937_seed(rng);
+    println!("cracked seed = {cracked_seed}");
 }

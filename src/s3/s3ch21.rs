@@ -39,7 +39,7 @@ pub struct MT19937 {
 
 impl MT19937 {
     #[allow(unused)]
-    pub fn new() -> MT19937 {
+    pub fn new(seed: u32) -> MT19937 {
         let constants = Constants {
             n: 624,
             m: 397,
@@ -57,25 +57,22 @@ impl MT19937 {
         let r = constants.r;
         let lower_mask = (1 << 31) - 1;
         let upper_mask = (1 << 31);
+        let mut mt = vec![0; n as usize];
+        mt[0] = seed;
+        for i in 1_u32..constants.n {
+            // supposing w is whatever type self.mt elements are... so we're not bothering with taking
+            // lowest bits as its just casted...
+            mt[i as usize] = constants
+                .f
+                .wrapping_mul((mt[(i - 1) as usize]) ^ (mt[(i - 1) as usize] >> 30))
+                .wrapping_add(i);
+        }
         MT19937 {
             constants,
-            mt: vec![0; n as usize],
+            mt,
             index: n,
             lower_mask,
             upper_mask,
-        }
-    }
-
-    pub fn seed_mt(&mut self, seed: u32) {
-        self.mt[0] = seed;
-        for i in 1_u32..self.constants.n {
-            // supposing w is whatever type self.mt elements are... so we're not bothering with taking
-            // lowest bits as its just casted...
-            self.mt[i as usize] = self
-                .constants
-                .f
-                .wrapping_mul((self.mt[(i - 1) as usize]) ^ (self.mt[(i - 1) as usize] >> 30))
-                + i;
         }
     }
 
