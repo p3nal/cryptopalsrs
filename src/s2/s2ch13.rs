@@ -41,7 +41,7 @@ pub fn check_admin(vec: Vec<(&str, &str)>) -> bool {
         == "admin"
 }
 
-pub fn client/* <T: AsRef<[u8]>> */(cipher: &Cipher, email: &str) -> Vec<u8> {
+pub fn client(cipher: &Cipher, email: &str) -> Vec<u8> {
     cipher.encrypt(&profile_for(email))
 }
 

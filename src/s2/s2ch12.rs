@@ -80,10 +80,13 @@ pub fn crack_a_block(oracle: &Oracle, block_size: usize) -> Vec<u8> {
 }
 
 pub fn demo() {
-    let random_string = "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK";
-    let oracle = Oracle::new(16, random_string);
+    let random_cipher = "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK";
+    let oracle = Oracle::new(16, random_cipher);
     let block_size = discover_block_size(&oracle);
     println!("block size discovered = {block_size}");
     println!("mode = {}", detect_mode_operation(&oracle, block_size));
-    println!("{}", String::from_utf8(crack_a_block(&oracle, block_size)).unwrap());
+    println!(
+        "{}",
+        String::from_utf8(crack_a_block(&oracle, block_size)).unwrap()
+    );
 }

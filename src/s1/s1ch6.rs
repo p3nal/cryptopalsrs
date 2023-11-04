@@ -76,6 +76,6 @@ pub fn break_repeating_key_xor(path: &Path) -> (String, String) {
         guessed_key.push(crate::s1::s1ch3::single_byte_xor_cypher(&block).2 as u8);
     }
     let result = crate::s1::s1ch5::repeating_key_xor(&contents, &guessed_key);
-    let (plaintext, key) = (String::from_utf8(result).unwrap(), String::from_utf8(guessed_key).unwrap());
-    (plaintext, key)
+    let (plaintext, key) = (String::from_utf8_lossy(&result), String::from_utf8_lossy(&guessed_key));
+    (plaintext.to_string(), key.to_string())
 }

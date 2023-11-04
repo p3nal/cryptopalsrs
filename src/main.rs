@@ -73,19 +73,27 @@ fn main() {
     // s3::s3ch17_break::break_s3ch17();
     //
     // ch18 CTR here we go
-    let key = "YELLOW SUBMARINE";
-    // let plaintext = "asdfasdfasdfasdfasdfasdfasdfasdfasdf";
-    // let nonce = s2::s2ch11::generate_random_bytes(8);
-    let nonce = vec![0_u8; 8];
-    let ciphertext =
-        base64::decode("L77na/nrFsKvynd6HzOoG7GHTLXsTVu9qvY/2syLXzhPweyyMTJULu/6/kXX0KSvoOLSFQ==")
-            .unwrap();
-    println!(
-        "plaintext: {}",
-        String::from_utf8(s3::s3ch18::aes_ctr_encrypt(
-            ciphertext,
-            key.as_bytes().to_vec(),
-            nonce
-        )).unwrap()
-    );
+    // let key = "YELLOW SUBMARINE";
+    // let nonce = vec![0_u8; 8];
+    // let ciphertext =
+    //     base64::decode("L77na/nrFsKvynd6HzOoG7GHTLXsTVu9qvY/2syLXzhPweyyMTJULu/6/kXX0KSvoOLSFQ==")
+    //         .unwrap();
+    // println!(
+    //     "plaintext: {}",
+    //     String::from_utf8(s3::s3ch18::aes_ctr_crypt(
+    //         ciphertext,
+    //         key.as_bytes().to_vec(),
+    //         nonce
+    //     )).unwrap()
+    // );
+    // ch19
+    // s3::s3ch19::crack_me();
+    //
+    // ch21
+    let mut mt = s3::s3ch21::MT19937::new();
+    s3::s3ch21::MT19937::seed_mt(&mut mt, 1131464071);
+    for _ in 0..10 {
+        let random = s3::s3ch21::MT19937::extract_number(&mut mt);
+        println!("random number = {random}");
+    }
 }
