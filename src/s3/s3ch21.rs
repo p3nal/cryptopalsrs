@@ -15,7 +15,7 @@ pub struct Constants {
      * u, d, l: additional Mersenne Twister tempering bit shifts/masks
      */
     // w: u32,
-    pub n: u32,
+    n: u32,
     m: u32,
     r: u32,
     a: u32,
@@ -30,9 +30,9 @@ pub struct Constants {
 }
 
 pub struct MT19937 {
-    pub constants: Constants,
+    constants: Constants,
     pub mt: Vec<u32>,
-    pub index: u32,
+    index: u32,
     lower_mask: u32,
     upper_mask: u32,
 }
