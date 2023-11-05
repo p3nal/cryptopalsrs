@@ -98,7 +98,21 @@ fn main() {
     // }
     //
     // ch22
-    let rng = s3::s3ch22::go_get_coffee_while_this_runs();
-    let cracked_seed = s3::s3ch22::crack_mt19937_seed(rng);
-    println!("cracked seed = {cracked_seed}");
+    // let rng = s3::s3ch22::go_get_coffee_while_this_runs();
+    // let cracked_seed = s3::s3ch22::crack_mt19937_seed(rng);
+    // println!("cracked seed = {cracked_seed}");
+    //
+    // ch23
+    let mut mt = s3::s3ch21::MT19937::new(1337);
+    let mut cloned_mt = s3::s3ch21::MT19937::new(129384);
+    let mut tapped_output: Vec<u32> = Vec::new();
+    for _ in 0..624 {
+        tapped_output.push(mt.extract_number());
+        cloned_mt.extract_number();
+    }
+    let cloned_state = s3::s3ch23::clone_mt19937(tapped_output);
+    cloned_mt.mt = cloned_state;
+    for _ in 0..20 {
+        println!("orig = {}, cloned = {}", mt.extract_number(), cloned_mt.extract_number());
+    }
 }

@@ -15,7 +15,7 @@ pub struct Constants {
      * u, d, l: additional Mersenne Twister tempering bit shifts/masks
      */
     // w: u32,
-    n: u32,
+    pub n: u32,
     m: u32,
     r: u32,
     a: u32,
@@ -30,9 +30,9 @@ pub struct Constants {
 }
 
 pub struct MT19937 {
-    constants: Constants,
-    mt: Vec<u32>,
-    index: u32,
+    pub constants: Constants,
+    pub mt: Vec<u32>,
+    pub index: u32,
     lower_mask: u32,
     upper_mask: u32,
 }
@@ -93,7 +93,7 @@ impl MT19937 {
     }
 
     pub fn extract_number(&mut self) -> u32 {
-        if self.index >= self.constants.n {
+        if self.index.ge(&self.constants.n) {
             self.twist();
         }
 
