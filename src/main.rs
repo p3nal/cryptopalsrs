@@ -106,7 +106,7 @@ fn main() {
     // s3::s3ch23::splice_mt19937();
     //
     // ch24
-    let plaintext = "shit shit shit shit";
+    let plaintext = "VERYSECRETSTUFFHEREAAAAAAAAAAAAAA";
     let cipher = s3::s3ch24::mt19937_stream_cipher(0xace1, &plaintext);
     let plain = s3::s3ch24::mt19937_stream_cipher(0xace1, &cipher);
     println!("cipher = {}, plain = {}", hex::encode(cipher), String::from_utf8(plain).unwrap())
