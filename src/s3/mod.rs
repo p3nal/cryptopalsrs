@@ -6,3 +6,4 @@ pub mod s3ch20;
 pub mod s3ch21;
 pub mod s3ch22;
 pub mod s3ch23;
+pub mod s3ch24;
