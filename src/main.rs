@@ -108,16 +108,18 @@ fn main() {
     // s3::s3ch23::splice_mt19937();
     //
     // ch24
-    //               aaaabbbbccccddddeeeeffffddddgggghhhh
-    let plaintext = "VERYSECRETSTUFFHEREAAAAAAAAAAAAAA";
-    let ciphertext = s3::s3ch24::mt19937_stream_cipher(0xace1, &plaintext);
-    let cipher_len = ciphertext.len();
-    let keystream_aaa = xor(&ciphertext[cipher_len - 14..], b"AAAAAAAAAAAAAA");
-    let found_key = s3::s3ch24::bruteforce_mt19937_key(&ciphertext, b"AAAAAAAAAAAAAA".to_vec());
-    println!(
-        "cipher = {}\nxored = {}\nfound key = {:#x}",
-        hex::encode(ciphertext),
-        hex::encode(keystream_aaa),
-        found_key
-    )
+    // let plaintext = "VERYSECRETSTUFFHEREAAAAAAAAAAAAAA";
+    // let ciphertext = s3::s3ch24::mt19937_stream_cipher(0xace1, &plaintext);
+    // let cipher_len = ciphertext.len();
+    // let keystream_aaa = xor(&ciphertext[cipher_len - 14..], b"AAAAAAAAAAAAAA");
+    // let found_key = s3::s3ch24::bruteforce_mt19937_key(&ciphertext, b"AAAAAAAAAAAAAA".to_vec());
+    // println!(
+    //     "cipher = {}\nxored = {}\nfound key = {:#x}",
+    //     hex::encode(ciphertext),
+    //     hex::encode(keystream_aaa),
+    //     found_key
+    // );
+    let token = s3::s3ch24::password_reset_token();
+    println!("genertaed password reset thing: {}", hex::encode(&token));
+    println!("is it generated using mt19937? {}", s3::s3ch24::check_password_token_mt19937_gen(&token))
 }
