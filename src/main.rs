@@ -1,10 +1,15 @@
 mod s1;
 mod s2;
 mod s3;
+mod s4;
 use hex;
 use std::path::Path;
 
-use crate::s2::s2ch10::xor;
+use crate::{
+    s2::{s2ch10::xor, s2ch11::generate_random_bytes},
+    s3::s3ch18::aes_ctr_crypt,
+    s4::s4ch25::edit, s1::{s1ch8::detects_aes_in_ecb, s1ch6::read_b64_file_contents, s1ch7::decrypt_aes_in_ecb},
+};
 
 fn main() {
     // every preceding challenge has been commented out lol
@@ -76,17 +81,17 @@ fn main() {
     //
     // ch18 CTR here we go
     // let key = "YELLOW SUBMARINE";
-    // let nonce = vec![0_u8; 8];
+    // let nonce = 0u64;
     // let ciphertext =
     //     base64::decode("L77na/nrFsKvynd6HzOoG7GHTLXsTVu9qvY/2syLXzhPweyyMTJULu/6/kXX0KSvoOLSFQ==")
     //         .unwrap();
     // println!(
     //     "plaintext: {}",
-    //     String::from_utf8(s3::s3ch18::aes_ctr_crypt(
+    //     String::from_utf8_lossy(&s3::s3ch18::aes_ctr_crypt(
     //         ciphertext,
-    //         key.as_bytes().to_vec(),
+    //         key.as_bytes(),
     //         nonce
-    //     )).unwrap()
+    //     ))
     // );
     // ch19
     // s3::s3ch19::crack_me();
@@ -119,7 +124,22 @@ fn main() {
     //     hex::encode(keystream_aaa),
     //     found_key
     // );
-    let token = s3::s3ch24::password_reset_token();
-    println!("genertaed password reset thing: {}", hex::encode(&token));
-    println!("is it generated using mt19937? {}", s3::s3ch24::check_password_token_mt19937_gen(&token))
+    // let token = s3::s3ch24::password_reset_token();
+    // println!("genertaed password reset thing: {}", hex::encode(&token));
+    // println!("is it generated using mt19937? {}", s3::s3ch24::check_password_token_mt19937_gen(&token))
+    //
+    // set 4
+    // s4ch25
+    let path = "./src/s4/25.txt";
+    let key = String::from("YELLOW SUBMARINE");
+    let ciphertext = read_b64_file_contents(path);
+    let plaintext = decrypt_aes_in_ecb(&ciphertext, &key);
+    let nonce = 0_64;
+    // let key = generate_random_bytes(16);
+    let ciphertext = aes_ctr_crypt(plaintext, &key, nonce);
+    let edited = edit(&ciphertext, &key, 0_u64, 0, "shitshitshitshit");
+    println!(
+        "edited contents = {}",
+        String::from_utf8_lossy(&aes_ctr_crypt(edited, key, nonce))
+    );
 }

@@ -18,7 +18,7 @@ pub fn count_similar_blocks<T: AsRef<[u8]>>(line: T, block_size: usize) -> usize
 }
 
 
-pub fn detects_aes_in_ecb(path: &Path) -> (String, usize) {
+pub fn detects_aes_in_ecb(path: impl AsRef<Path>) -> (String, usize) {
     let file = File::open(path).expect("error opening file");
     let reader = BufReader::new(file);
     let mut count;

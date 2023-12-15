@@ -109,13 +109,13 @@ QW5kIHdlIG91dHRhIGhlcmUgLyBZbywgd2hhdCBoYXBwZW5lZCB0byBwZWFjZT8gLyBQZWFjZQ==";
 
     let list_of_strings = list_of_strings.split('\n').collect::<Vec<&str>>();
     let length = list_of_strings.len();
-    let nonce = vec![0_u8; 8];
+    let nonce = 0_64;
     for i in 0..length {
         let plaintext = base64::decode(list_of_strings[i]).unwrap();
         encrypted_strings.push(crate::s3::s3ch18::aes_ctr_crypt(
             plaintext,
             "YELLOW SUBMARINE".as_bytes().to_vec(),
-            nonce.to_vec(),
+            nonce,
         ));
     }
 

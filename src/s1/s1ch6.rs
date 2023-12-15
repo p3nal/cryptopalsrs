@@ -4,8 +4,8 @@ use std::path::Path;
 
 // set 1 challenge 6
 //
-pub fn read_b64_file_contents(path: &Path) -> Vec<u8> {
-    base64::decode(read_to_string(path).unwrap().replace("\n", "")).unwrap()
+pub fn read_b64_file_contents(path: impl AsRef<Path>) -> Vec<u8> {
+    base64::decode(read_to_string(path.as_ref()).unwrap().replace("\n", "")).unwrap()
 }
 
 pub fn read_hex_file_contents(path: &Path) -> Vec<u8> {

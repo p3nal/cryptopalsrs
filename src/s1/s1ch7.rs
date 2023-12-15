@@ -1,7 +1,7 @@
 use openssl::symm::{Cipher, decrypt, encrypt};
 use std::path::Path;
 
-pub fn decrypt_aes_in_ecb<T: AsRef<[u8]>>(ciphertext: T, key: T) -> Vec<u8> {
+pub fn decrypt_aes_in_ecb<T: AsRef<[u8]>, U: AsRef<[u8]>>(ciphertext: T, key: U) -> Vec<u8> {
     // let ciphertext: Vec<u8> = crate::s1::s1ch6::read_b64_file_contents(path);
     let ciphertext = ciphertext.as_ref().to_vec();
 
